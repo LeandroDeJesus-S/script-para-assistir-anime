@@ -4,6 +4,7 @@ import logging as log
 
 
 class Animes:
+    animes_database = 'database/animes.db'
     @classmethod
     def add_anime(cls, name: str, home: str):
         """adiciona um anime na base de dados
@@ -20,7 +21,7 @@ class Animes:
         log.debug(f'add_anime > name : {name} | home : {home}')
         log.debug(f'add_anime > se : get_link_to_season_ep_when_adding : {se}')
 
-        conn = sqlite3.connect('database/animes.db')
+        conn = sqlite3.connect(cls.animes_database)
         cursor = conn.cursor()
 
         cmd = 'INSERT OR IGNORE INTO animes (name, home, se) VALUES (?, ?, ?)'
@@ -39,14 +40,11 @@ class Animes:
         anime = anime.upper()
         log.debug(f'get_anime_link > anime : {anime}')
         fetch = AnimesConfig.search_anime(anime)
-        found = False
         link = ''
-        for a in fetch:
-            if anime == a[1]:
-                found = True
-                link = a[3]
-                break
-        log.debug(f'get_anime_link_to_season_ep > link : {link} | found : {found}')
+        if fetch:
+            link = fetch[3]
+        
+        log.debug(f'get_anime_link_to_season_ep > link : {link}')
         return link
 
     @classmethod
@@ -77,7 +75,10 @@ class Animes:
         import requests as rq
         from bs4 import BeautifulSoup
 
+        log.debug(f'get_latest_episode > anime_name : {anime_name}')
+        
         anime_home_link = cls.get_anime_home_link(anime_name)
+        log.debug(f'get_latest_episode > anime_home_link : {anime_home_link}')
         if not anime_home_link:
             return ''
 
@@ -89,8 +90,6 @@ class Animes:
             for ep_num in ep_objs.select('.numerando'):
                 _, _, latest_ep_num = ep_num.text.split()
 
-        log.debug(f'get_latest_episode > anime_name : {anime_name}')
-        log.debug(f'get_latest_episode > anime_home_link : {anime_home_link}')
         log.debug(f'get_latest_episode > latest_ep_num : {latest_ep_num}')
         return latest_ep_num
 
