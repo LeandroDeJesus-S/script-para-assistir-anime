@@ -144,4 +144,6 @@ except requests.exceptions.ConnectionError:
     msg = 'erro de conexão, verifique se você está conectado a internet'
     print(Color.red(msg))
     log.warning(msg)
+except requests.exceptions.ChunkedEncodingError as exp:
+    print('Error:', exp)
     

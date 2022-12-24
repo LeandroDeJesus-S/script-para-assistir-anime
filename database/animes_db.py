@@ -3,6 +3,8 @@ import logging as log
 
 
 class AnimesConfig:
+    animes_database = 'database/animes.db'
+    anime_releases_database = 'database/ultimosAnimes.db'
     @classmethod
     def search_anime(cls, name: str, limit='') -> list[tuple[int, str, str, str]]:
         """busca o nome do anime no banco de dados e retorna os animes
@@ -12,7 +14,7 @@ class AnimesConfig:
             limit = f" LIMIT {limit}"
         
         name = name.upper()
-        connection = sqlite3.connect('animes.db')
+        connection = sqlite3.connect(cls.animes_database)
         cursor = connection.cursor()
 
         cursor.execute(f'SELECT * FROM animes WHERE name LIKE ?{limit}', (f'{name}%',))
@@ -45,7 +47,7 @@ class AnimesConfig:
 
         try:
             rate = float(rate)
-            connection = sqlite3.connect('database/ultimosAnimes.db')
+            connection = sqlite3.connect(cls.anime_releases_database)
             cursor = connection.cursor()
 
             cmd = 'INSERT OR IGNORE INTO last_animes (rate, name) VALUES (?, ?)'
@@ -68,7 +70,7 @@ class AnimesConfig:
 
     @classmethod
     def get_last_animes_in_database(cls) -> list[tuple[str, str, int]]:
-        connection = sqlite3.connect('database/ultimosAnimes.db')
+        connection = sqlite3.connect(cls.anime_releases_database)
         cursor = connection.cursor()
         cursor.execute('SELECT * FROM last_animes')
 

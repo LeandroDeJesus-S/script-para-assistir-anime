@@ -3,15 +3,13 @@ import logging as log
 
 
 class EpsConfig:
-    def __init__(self) -> None:
-        pass
-
+    episode_releases_database = 'database/ultimosEPS.db'
     @classmethod
     def save_last_eps(cls, traduction: str, name: str, ep: int):
         import sqlite3
 
         log.debug(f'save_last_eps > traduction : {traduction} | name : {name} | ep : {ep}')
-        connection = sqlite3.connect('database/ultimosEPS.db')
+        connection = sqlite3.connect(cls.episode_releases_database)
         cursor = connection.cursor()
 
         cmd = 'INSERT OR IGNORE INTO last_eps (traducao, nome, episodio) VALUES (?, ?, ?)'
@@ -34,7 +32,7 @@ class EpsConfig:
 
     @classmethod
     def get_last_eps_in_database(cls) -> list[tuple[str, str, int]]:
-        connection = sqlite3.connect('database/ultimosEPS.db')
+        connection = sqlite3.connect(cls.episode_releases_database)
         cursor = connection.cursor()
         cursor.execute('SELECT * FROM last_eps')
 

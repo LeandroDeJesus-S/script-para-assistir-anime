@@ -102,11 +102,11 @@ class Animes:
         returns:
             link da pagina inicial ou string vazia caso não consiga
         """
-        founded_animes = AnimesConfig.search_anime(anime)
+        founded_anime = AnimesConfig.search_anime(anime)
         home_link = ''
-        for ani in founded_animes:
-            if anime.upper() == ani[1].upper():
-                home_link = ani[2]
+        if founded_anime:
+            home_link = founded_anime[2]
+        
         log.debug(f'get_anime_home_link > anime : {anime}')
         log.debug(f'get_anime_home_link > home_link : {home_link}')
         return home_link
