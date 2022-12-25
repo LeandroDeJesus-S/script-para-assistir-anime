@@ -84,7 +84,7 @@ As seguintes ferramentas foram usadas na construção do projeto:
 ---
 
 <a href="">
- <img style="border-radius: 50%;" src="https://instagram.fsbj1-1.fna.fbcdn.net/v/t51.2885-19/309266936_508450560617948_4798171976938283294_n.jpg?stp=dst-jpg_s150x150&_nc_ht=instagram.fsbj1-1.fna.fbcdn.net&_nc_cat=108&_nc_ohc=6lYSylM18kAAX-JqbCu&edm=AOQ1c0wBAAAA&ccb=7-5&oh=00_AfD79rRggK9QWSo4ByIzzFVtUTFFLLQOp7Gaakx8GzTYTw&oe=6396CD26&_nc_sid=8fd12b" width="100px;" alt=""/>
+ <img style="border-radius: 50%;" src="https://instagram.fsbj1-1.fna.fbcdn.net/v/t51.2885-19/309266936_508450560617948_4798171976938283294_n.jpg?stp=dst-jpg_s150x150&_nc_ht=instagram.fsbj1-1.fna.fbcdn.net&_nc_cat=108&_nc_ohc=pdBAKWz-Az0AX8hRBLx&edm=AOQ1c0wBAAAA&ccb=7-5&oh=00_AfDhM6RWL6qWdZqCAOms5hHYvgxfEoi1pIkLh0DLt8qngA&oe=63AC8DE6&_nc_sid=8fd12b" width="100px;" alt=""/>
  <br />
  <sub><b>Leandro de Jesus Santos</b></sub></a> <a href="https://www.instagram.com/_leandro_zz/">🚀</a>
 
