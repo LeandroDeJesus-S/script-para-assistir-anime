@@ -103,7 +103,7 @@ class Animes:
         """
         founded_anime = AnimesConfig.search_anime(anime)
         home_link = ''
-        if founded_anime:
+        if founded_anime and anime == founded_anime[1]:
             home_link = founded_anime[2]
         
         log.debug(f'get_anime_home_link > anime : {anime}')

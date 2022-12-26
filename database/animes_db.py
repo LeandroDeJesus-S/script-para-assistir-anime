@@ -6,7 +6,7 @@ class AnimesConfig:
     animes_database = 'database/animes.db'
     anime_releases_database = 'database/ultimosAnimes.db'
     @classmethod
-    def search_anime(cls, name: str, limit='') -> list[tuple[int, str, str, str]]:
+    def search_anime(cls, name: str, limit='') -> tuple[int, str, str, str]:
         """busca o nome do anime no banco de dados e retorna os animes
         onde se encontram o valor passado.
         """
@@ -28,14 +28,14 @@ class AnimesConfig:
         return result
     
     @classmethod
-    def get_suggestion(cls, anime_name):
+    def get_suggestion(cls, anime_name: str):
         from config.cor import Color
 
-        anime_result = cls.search_anime(anime_name)[1]
-        if anime_name.upper() not in anime_result:
+        anime_result = cls.search_anime(anime_name)
+        if not anime_result:
             return
         msg = Color.red('Anime não encontrado...')
-        suggestion = Color.blue(anime_result)
+        suggestion = Color.blue(anime_result[1])
         msg1 = Color.yellow(f'Você quiz dizer: "{suggestion}\033[33m" ?')
         print(f'{msg}\n{msg1}')
 

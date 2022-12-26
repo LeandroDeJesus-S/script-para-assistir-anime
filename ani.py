@@ -1,149 +1,75 @@
-import sys
-import colorama
-from config import utils
-from config.argscfg import Arguments
-from animes_scrapping.animesonline import AnimesOnline
-from config.cor import Color
-import requests.exceptions
-import logging as log
+import argparse as ap
+from config import argscfg, utils
 from dataupdate import up
+import colorama
+from sys import argv
+import logging as log
 
 log.basicConfig(filename='logs.log', filemode='w',
                 format='%(asctime)s - %(levelname)s - %(filename)s : %(message)s',
                 level=log.DEBUG, encoding='utf-8')
+
 colorama.init()
-up.update_data()
-ARGS = sys.argv
-HELP_MSG = """
--w [anime]                                      leva para a pagina inicial do anime
-           -s [season]                          leva para a temporada especifica
-           -e [episode]                         leva para o episodio especifico do anime
+up.Updater.make_updates()
+HELP_MSG = f"""
+{argv[0]}\t[-w [ANM] [-s [SE] ] [-e [EP] ] ]
+\t[-add [ANM] [URL]]
+\t[-new [ANM]]
+\t[-sh]
+\t[-la]
+\t[-le]
+""".expandtabs(20)
+cli = ap.ArgumentParser(usage=HELP_MSG)
 
--add [anime] [url home]                         adiciona um nova anime na base de dados
+W_HELP = 'leva para a pagina inicial do anime'
+S_HELP = 'passa uma temporada especifica'
+E_HELP = 'passa um episódio especifico'
+ADD_HELP = 'adiciona um novo anime'
+SH_HELP = 'Leva a pagina inicial do site'
+LE_HELP = 'Lista os ultimos episódios lançados'
+LA_HELP = 'Lista os ultimos animes lançados'
+NEW_HELP = 'Leva ao episódio mais recente do anime passado'
 
--new [anime]                                    leva para o episodio mais recente do anime
+cli.add_argument('-w', nargs=1, type=str, metavar='[ANM]', help=W_HELP)
+cli.add_argument('-s', nargs=1, type=int, metavar='[SE]', help=S_HELP)
+cli.add_argument('-e', nargs=1, type=int, metavar='[EP]', help=E_HELP)
+cli.add_argument('-add', nargs=2, type=str, metavar=('[ANM]', '[URL]'), help=ADD_HELP)
+cli.add_argument('-sh', action='store_true', help=SH_HELP)
+cli.add_argument('-le', action='store_true', help=LE_HELP)
+cli.add_argument('-la', action='store_true', help=LA_HELP)
+cli.add_argument('-new', nargs=1, type=str, metavar='[ANM]', help=NEW_HELP)
+args = cli.parse_args()
 
--le                                             lista os ultimos episodios lançados
+def get_arg_or_empty_str(arg) -> str:
+    return arg[0] if arg else ''
 
--la                                             lista os ultimos animes lançados
+W = get_arg_or_empty_str(args.w)
+NEW = get_arg_or_empty_str(args.new)
+S = get_arg_or_empty_str(args.s)
+E = get_arg_or_empty_str(args.e)
+ADD = {'anime': args.add[0], 'url': args.add[1]} if args.add else ''
+SH = args.sh
+LA = args.la
+LE = args.le
 
--sh                                             leva a pagina inicial do site animesonline
-"""
+if W and not S and not E:
+    argscfg.Arguments.watch(W)
 
-try:
-    FIRST_ARG = utils.get_arg(ARGS, 1)
-    SECOND_ARG = utils.get_arg(ARGS, 2)
-    THIRD_ARG = utils.get_arg(ARGS, 3)
-    FOURTH_ARG = utils.get_arg(ARGS, 4)
-    FIFTH_ARG = utils.get_arg(ARGS, 5)
-    SIXTH_ARG = utils.get_arg(ARGS, 6)
-
-    NUM_ARGS_SENT = len(ARGS)
-    ONE_ARG_WAS_SENT = NUM_ARGS_SENT == 2
-    TWO_ARGS_WAS_SENT = NUM_ARGS_SENT == 3
-    THREE_ARGS_WAS_SENT = NUM_ARGS_SENT == 4
-    FOUR_ARGS_WAS_SENT = NUM_ARGS_SENT == 5
-    SIX_ARGS_WAS_SENT = NUM_ARGS_SENT == 7
-
-    ep = season = url = is_valid_url = is_valid_season = ''
-    FIRST_ARG_IS_LE = utils.is_argument(FIRST_ARG, '-le')
-    FIRST_ARG_IS_LA = utils.is_argument(FIRST_ARG, '-la')
-    FIRST_ARG_IS_SH = utils.is_argument(FIRST_ARG, '-sh')
-    FIRST_ARG_IS_HELP = utils.is_argument(FIRST_ARG, '--help')
-    FIRST_ARG_IS_W = utils.is_argument(FIRST_ARG, '-w')
-    FIRST_ARG_IS_ADD = utils.is_argument(FIRST_ARG, '-add')
-    FIRST_ARG_IS_NEW = utils.is_argument(FIRST_ARG, '-new')
-
-    FIFTH_ARG_SENT_IS_EP = utils.is_argument(FIFTH_ARG, '-e')
-    FIFTH_ARG_SENT_IS_SEASON = utils.is_argument(FIFTH_ARG, '-s')
-    FIFTH_ARG_IS_EP = FIRST_ARG_IS_W and FIFTH_ARG_SENT_IS_EP
-    FIFTH_ARG_IS_SEASON = FIRST_ARG_IS_W and FIFTH_ARG_SENT_IS_SEASON
-
-    THIRD_ARG_IS_SEASON = utils.is_season(THIRD_ARG)
-    THIRD_ARG_IS_EPISODE = utils.is_episode(THIRD_ARG)
-
-    JUST_W_WAS_CALLED = FIRST_ARG_IS_W and TWO_ARGS_WAS_SENT
-    W_S_E_WAS_CALLED = FIRST_ARG_IS_W and FOUR_ARGS_WAS_SENT or SIX_ARGS_WAS_SENT
-    ADD_WAS_CALLED = FIRST_ARG_IS_ADD and THREE_ARGS_WAS_SENT
-    NEW_WAS_CALLED = FIRST_ARG_IS_NEW and TWO_ARGS_WAS_SENT
-
-    log.info(f'argumentos enviados: {ARGS[1:]}')
+elif W and S or E:
+    argscfg.Arguments.watch_season_ep(W, str(S), str(E))
     
-    if FIRST_ARG in ['-w', '-add', '-new']:
+elif ADD:
+    if utils.is_accessible(ADD['url']):
+        argscfg.Arguments.add_anime(ADD['anime'], ADD['url'])
 
-        ANIME_NAME = SECOND_ARG
-        if not ANIME_NAME:
-            msg = f'o nome do anime não foi enviado.'
-            print(Color.red(msg))
-            log.debug(msg)
-
-        if FIRST_ARG_IS_ADD:
-            url = THIRD_ARG
-            is_valid_url = utils.is_accessible(url)
-            if not is_valid_url:
-                msg = 'url invalida ou não enviada'
-                print(Color.red(msg))
-                log.debug(msg)
-
-            log.debug(f'-add anime : {ANIME_NAME} | url: {url}')
-            log.debug(f'-add is_valid_url : {is_valid_url}')
-
-        elif THIRD_ARG_IS_SEASON:
-            is_valid_season = utils.valid_season_ep_value(THIRD_ARG, FOURTH_ARG)
-            season = FOURTH_ARG if is_valid_season else ''
-
-            log.debug(f'-s season : {FOURTH_ARG}')
-            log.debug(f'-s is_valid_season : {is_valid_season}')
-
-        elif THIRD_ARG_IS_EPISODE:
-            is_valid_ep = utils.valid_season_ep_value(THIRD_ARG, FOURTH_ARG)
-            ep = FOURTH_ARG if is_valid_ep else ''
-
-            log.debug(f'-e ep : {FOURTH_ARG}')
-            log.debug(f'-s is_valid_ep : {is_valid_ep}')
-
-        elif FIFTH_ARG_IS_SEASON:
-            is_valid_season = utils.valid_season_ep_value(FIFTH_ARG, SIXTH_ARG)
-            season = SIXTH_ARG if is_valid_season else ''
-            log.debug(f'fifth_arg_is_season > season : {season}')
-            
-        elif FIFTH_ARG_IS_EP:
-            is_valid_ep = utils.valid_season_ep_value(FIFTH_ARG, SIXTH_ARG)
-            ep = SIXTH_ARG if is_valid_ep else ''
-            log.debug(f'fifth_arg_is_ep > ep : {ep}')
-
-        if JUST_W_WAS_CALLED:
-            Arguments.watch(ANIME_NAME)
-            
-        elif W_S_E_WAS_CALLED:
-            Arguments.watch_season_ep(ANIME_NAME, season, ep)
-            
-        elif ADD_WAS_CALLED and is_valid_url:
-            Arguments.add_anime(ANIME_NAME, url)
-            
-        elif NEW_WAS_CALLED:
-            log.debug(f'{FIRST_ARG}: {SECOND_ARG}')
-            Arguments.new(ANIME_NAME)
-
-    elif FIRST_ARG_IS_LE:
-        AnimesOnline.show_last_eps()
-        
-    elif FIRST_ARG_IS_LA:
-        AnimesOnline.show_last_animes()
-        
-    elif FIRST_ARG_IS_SH:
-        AnimesOnline.open_home_page()
-        
-    elif FIRST_ARG_IS_HELP:
-        print(HELP_MSG)
-        
-    elif NUM_ARGS_SENT > 1:
-        print(Color.yellow('argumentos inválidos. Para obter ajuda use: --help'))
-
-except requests.exceptions.ConnectionError:
-    msg = 'erro de conexão, verifique se você está conectado a internet'
-    print(Color.red(msg))
-    log.warning(msg)
-except requests.exceptions.ChunkedEncodingError as exp:
-    print('Error:', exp)
+elif NEW:
+    argscfg.Arguments.new(NEW)
     
+elif SH:
+    argscfg.Arguments.site_home()
+    
+elif LA:
+    argscfg.Arguments.last_animes()
+    
+elif LE:
+    argscfg.Arguments.last_episodes()
