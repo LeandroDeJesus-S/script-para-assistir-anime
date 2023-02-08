@@ -138,7 +138,11 @@ class Arguments(Color):
         """mostra os ultimos lançamentos de episodios
         """
         animesonline.AnimesOnline.show_last_eps()
-
-
-if __name__ == '__main__':
-    ...
+        
+    @classmethod
+    def fetch_animes(cls, fetch: str):
+        animes = AnimesConfig.search_anime(fetch, fetch_range='all')
+        for _, anime, *_ in animes:
+            print(anime)
+            
+        print(f'{len(animes)} resultados encontrados.')

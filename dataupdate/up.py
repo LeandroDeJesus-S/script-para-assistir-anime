@@ -57,4 +57,12 @@ class Updater:
             cls.update_time()
             log.info('Data para update atualizada')
 
+    @classmethod
+    def make_manual_updates(cls):
+        AnimesConfig.update_last_animes_database()
+        log.info('Base de dados de animes atualizada manualmente')
+        EpsConfig.update_last_eps_database()
+        log.info('Base de dados de episodios atualizada manualmente')
+        cls.update_time()
+        log.info('Data para update atualizada manualmente')
 
