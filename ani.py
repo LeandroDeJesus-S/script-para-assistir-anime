@@ -3,7 +3,8 @@ import colorama
 import logging as log
 from dataupdate import up
 from config import argscfg, utils
-from config.arguments import W, S, E, ADD, NEW, SH, LA, LE, UPDATE, FETCH
+from config.arguments import *
+from config import history
 
 log.basicConfig(filename='logs.log', filemode='w',
                 format='%(asctime)s - %(levelname)s - %(filename)s : %(message)s',
@@ -39,3 +40,6 @@ elif UPDATE:
 
 elif FETCH:
     argscfg.Arguments.fetch_animes(FETCH)
+
+elif HISTORY:
+    history.show_history()

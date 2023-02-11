@@ -15,9 +15,10 @@ cli.add_argument('-add', nargs=2, type=str, metavar=('[ANM]', '[URL]'), help=ADD
 cli.add_argument('-sh', action='store_true', help=SH_HELP)
 cli.add_argument('-le', action='store_true', help=LE_HELP)
 cli.add_argument('-la', action='store_true', help=LA_HELP)
-cli.add_argument('-update', action='store_true', help=UPDATE_HELP)
 cli.add_argument('-new', nargs=1, type=str, metavar='[ANM]', help=NEW_HELP)
-cli.add_argument('-fetch', nargs=1, type=str, metavar='[ANM]', help=FETCH_HELP)
+cli.add_argument('--update', action='store_true', help=UPDATE_HELP)
+cli.add_argument('--fetch', nargs=1, type=str, metavar='[ANM]', help=FETCH_HELP)
+cli.add_argument('--history', action='store_true', help=None)
 args = cli.parse_args()
 
 W = get_arg_or_empty_str(args.w)
@@ -30,3 +31,4 @@ LA = args.la
 LE = args.le
 UPDATE = args.update
 FETCH = get_arg_or_empty_str(args.fetch)
+HISTORY = args.history

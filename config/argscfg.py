@@ -5,6 +5,7 @@ from webbrowser import open as webbrowser_open
 from config.cor import Color
 import logging as log
 from animes_scrapping import animesonline
+from . import history
 
 
 class Arguments(Color):
@@ -66,6 +67,8 @@ class Arguments(Color):
             return
         
         webbrowser_open(link)
+        if not se: se = None
+        history.save_history(anime, ep, se)
         log.info(f'watch_season_ep > redirecionado para {link}')
 
     @classmethod
@@ -119,6 +122,8 @@ class Arguments(Color):
             return
         
         webbrowser_open(link)
+        if not se_num: se_num = None
+        history.save_history(anime_name, ep_num, se_num)
         log.info(f'new > redirecionado para : {link}')
         
     @classmethod
@@ -141,6 +146,8 @@ class Arguments(Color):
         
     @classmethod
     def fetch_animes(cls, fetch: str):
+        """busca anime nos animes salvos"""
+        
         animes = AnimesConfig.search_anime(fetch, fetch_range='all')
         for _, anime, *_ in animes:
             print(anime)
