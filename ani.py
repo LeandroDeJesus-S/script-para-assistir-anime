@@ -17,14 +17,16 @@ if W and not S and not E:
     argscfg.Arguments.watch(W)
 
 elif W and S or E:
-    argscfg.Arguments.watch_season_ep(W, str(S), str(E))
+    argscfg.Arguments.watch_season_ep(W, S, E)
     
 elif ADD:
     if utils.is_accessible(ADD['url']):
         argscfg.Arguments.add_anime(ADD['anime'], ADD['url'])
+    else:
+        print('Não foi possivel adicionar o anime, url inválida ou não acessivel.')
 
 elif NEW:
-    argscfg.Arguments.new(NEW)
+    argscfg.Arguments.NEW_new(NEW)
     
 elif SH:
     argscfg.Arguments.site_home()

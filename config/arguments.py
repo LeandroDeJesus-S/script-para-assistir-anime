@@ -5,6 +5,9 @@ from .help_messages import *
 def get_arg_or_empty_str(arg) -> str:
     return arg[0] if arg else ''
 
+def get_arg_or_none(arg):
+    return arg[0] if arg else None
+
 
 cli = ap.ArgumentParser(usage=MAIN_HELP_MSG)
 
@@ -18,14 +21,14 @@ cli.add_argument('-la', action='store_true', help=LA_HELP)
 cli.add_argument('-new', nargs=1, type=str, metavar='[ANM]', help=NEW_HELP)
 cli.add_argument('--update', action='store_true', help=UPDATE_HELP)
 cli.add_argument('--fetch', nargs=1, type=str, metavar='[ANM]', help=FETCH_HELP)
-cli.add_argument('--history', action='store_true', help=None)
+cli.add_argument('--history', action='store_true', help=HISTORY_HELP)
 args = cli.parse_args()
 
 W = get_arg_or_empty_str(args.w)
 NEW = get_arg_or_empty_str(args.new)
-S = get_arg_or_empty_str(args.s)
-E = get_arg_or_empty_str(args.e)
-ADD = {'anime': args.add[0], 'url': args.add[1]} if args.add else ''
+S = get_arg_or_none(args.s)
+E = get_arg_or_none(args.e)
+ADD = {'anime': args.add[0], 'url': args.add[1]} if args.add else None
 SH = args.sh
 LA = args.la
 LE = args.le

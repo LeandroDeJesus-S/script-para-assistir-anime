@@ -91,6 +91,19 @@ class AnimesConfig:
         cls.sent_last_animes_to_database(new_releases)
         log.info(f'update_last_animes_database > {len(new_releases)} animes enviados para base de dados')
         print(Color.blue('Animes atualizados com sucesso!\n'))
+        
+    @classmethod
+    def edit_anime_link_to_ep(cls, anime, link_schema):
+        anime = anime.upper()
+        conn = sqlite3.connect(cls.database)
+        cur = conn.cursor()
+        
+        cmd = f'UPDATE animes SET se=:se WHERE name=:name'
+        value = {'se': link_schema, 'name':anime}
+        cur.execute(cmd, value)
+        
+        cur.close()
+        conn.close()
 
 
 if __name__ == '__main__':

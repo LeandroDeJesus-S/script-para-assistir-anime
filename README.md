@@ -23,7 +23,7 @@
 - [x] Listar lançamentos de animes e episódios.
 - [x] Mostrar sugestão caso anime passado esteja incorreto ou não seja encontrado.
 - [x] Atualizar animes automaticamente
-- [ ] Salvar histórico de episódios e animes assistidos.
+- [x] Salvar histórico de episódios e animes assistidos.
 - [ ] Mostrar resumo de animes lançados
 
 ### Pré-requisitos
@@ -69,6 +69,9 @@ $ python3 ani.py -le
 
 # acessar a home page do site
 $ python3 ani.py -sh
+
+# para atualizar os animes e episódios manualmente
+$ python3 manage.py --update
 
 # Para ver os comandos utilize
 $ python3 ani.py --help

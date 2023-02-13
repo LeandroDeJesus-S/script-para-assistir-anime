@@ -11,6 +11,7 @@ MAIN_HELP_MSG = f"""
 \t[--fetch [ANM]]
 \t[--update]
 \t[--history]
+\t[--alter-link-se [ANM] [SCH]]
 """.expandtabs(20)
 
 W_HELP = 'leva para a pagina inicial do anime'
@@ -24,3 +25,4 @@ NEW_HELP = 'Leva ao episódio mais recente do anime passado'
 UPDATE_HELP = 'Atualiza os eps e animes da base de dados manualmente'
 FETCH_HELP = 'Busca animes salvos na base de dados'
 HISTORY_HELP = 'Mostra o historico com o anime ep e temporada registrados'
+ALTER_LINK_SE_HELP = 'Altera o link que redireciona para temporada/ep especifico'

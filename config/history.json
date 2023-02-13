@@ -22,5 +22,29 @@
         "anime": "black clover",
         "episode": "110",
         "season": null
+    },
+    {
+        "time": "11/Feb/2023",
+        "anime": "BOKU NO HERO",
+        "episode": "19",
+        "season": "6"
+    },
+    {
+        "time": "11/Feb/2023",
+        "anime": "tokyo revengers",
+        "episode": "24",
+        "season": null
+    },
+    {
+        "time": "12/Feb/2023",
+        "anime": "BORUTO",
+        "episode": "287",
+        "season": null
+    },
+    {
+        "time": "12/Feb/2023",
+        "anime": "TOKYO REVENGERS",
+        "episode": 6,
+        "season": 2
     }
 ]

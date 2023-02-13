@@ -4,7 +4,7 @@ import logging as log
 
 
 class Animes:
-    animes_database = 'database/animes.db'
+    DATABASE = 'db.sqlite3'
     @classmethod
     def add_anime(cls, name: str, home: str):
         """adiciona um anime na base de dados
@@ -21,10 +21,10 @@ class Animes:
         log.debug(f'add_anime > name : {name} | home : {home}')
         log.debug(f'add_anime > se : get_link_to_season_ep_when_adding : {se}')
 
-        conn = sqlite3.connect(cls.animes_database)
+        conn = sqlite3.connect(cls.DATABASE)
         cursor = conn.cursor()
 
-        cmd = 'INSERT OR IGNORE INTO animes (name, home, se) VALUES (?, ?, ?)'
+        cmd = 'INSERT INTO animes (name, home, se) VALUES (?, ?, ?)'
         values = (name, home, se)
 
         cursor.execute(cmd, values)
@@ -66,7 +66,7 @@ class Animes:
         return url_season_ep
 
     @classmethod
-    def get_latest_episode(cls, anime_name) -> str:
+    def get_latest_episode(cls, anime_name: str) -> int:
         """Pega o número do episódio mais recente do anime enviado
         Returns:
             str: número do episódio mais recente ou uma str vazia, caso
@@ -91,7 +91,7 @@ class Animes:
                 _, _, latest_ep_num = ep_num.text.split()
 
         log.debug(f'get_latest_episode > latest_ep_num : {latest_ep_num}')
-        return latest_ep_num
+        return int(latest_ep_num)
 
     @classmethod
     def get_anime_home_link(cls, anime: str) -> str:
@@ -111,7 +111,7 @@ class Animes:
         return home_link
 
     @classmethod
-    def get_latest_season(cls, anime_name: str) -> str:
+    def get_latest_season(cls, anime_name: str) -> int:
         """retorna o número da temporada mais recente sendo ele > 1
         Returns:
             str: numero da temporada mais recente ou uma string vazia
@@ -135,7 +135,7 @@ class Animes:
                 _, latest_season = tmp_num.text.split()
 
         greatest_1 = latest_season != '1'
-        latest_season = latest_season if greatest_1 else ''
+        latest_season = int(latest_season) if greatest_1 else 1
         log.debug(f'get_latest_season > greatest_1 : {greatest_1}')
         log.debug(f'get_latest_season > latest_season : {latest_season}')
         return latest_season
