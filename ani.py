@@ -26,7 +26,7 @@ elif ADD:
         print('Não foi possivel adicionar o anime, url inválida ou não acessivel.')
 
 elif NEW:
-    argscfg.Arguments.NEW_new(NEW)
+    argscfg.Arguments.new(NEW)
     
 elif SH:
     argscfg.Arguments.site_home()

@@ -46,5 +46,29 @@
         "anime": "TOKYO REVENGERS",
         "episode": 6,
         "season": 2
+    },
+    {
+        "time": "17/Feb/2023",
+        "anime": "KAIFUKU JUTSUSHI N YARINAOSHI",
+        "episode": 12,
+        "season": 1
+    },
+    {
+        "time": "18/Feb/2023",
+        "anime": "BOKU NO HERO",
+        "episode": 20,
+        "season": 6
+    },
+    {
+        "time": "18/Feb/2023",
+        "anime": "TOKYO REVENGERS",
+        "episode": 7,
+        "season": 2
+    },
+    {
+        "time": "19/Feb/2023",
+        "anime": "TRIAGE X",
+        "episode": 4,
+        "season": 1
     }
 ]

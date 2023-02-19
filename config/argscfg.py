@@ -62,6 +62,7 @@ class Arguments(Color):
             print(Color.red('Não foi possivel acessar o link do anime...'))
             return
         webbrowser_open(link_to_redirect)
+        history.save_history(anime, ep, se)
 
     @classmethod
     def add_anime(cls, anime_name: str, url: str) -> None:

@@ -18,8 +18,17 @@ def show_history():
     with open(HISTORY_FILE, 'r', encoding='utf-8') as file:
         data = json.load(file)
         for d in data:
-            time, anime, se, ep = d.values()
+            time, anime, ep, se = d.values()
             if se is None:
-                print(f'{Color.grey(time)} - {Color.blue(anime)} - {Color.yellow(ep)}')
+                print(
+                    f'data: {Color.grey(time)}\n'
+                    f'anime: {Color.blue(anime)}\n'
+                    f'episódio: {Color.red(ep)}\n'
+                )
                 continue
-            print(f'{Color.grey(time)} - {Color.blue(anime)} - {Color.green(se)} - {Color.yellow(ep)}')
+            print(
+                f'data: {Color.grey(time)}\n'
+                f'anime: {Color.cian(anime)}\n'
+                f'temporada: {Color.green(se)}\n'
+                f'episódio: {Color.red(ep)}\n'
+            )
