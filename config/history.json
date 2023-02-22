@@ -70,5 +70,29 @@
         "anime": "TRIAGE X",
         "episode": 4,
         "season": 1
+    },
+    {
+        "time": "19/Feb/2023",
+        "anime": "BORUTO",
+        "episode": 288,
+        "season": 1
+    },
+    {
+        "time": "20/Feb/2023",
+        "anime": "DANNY PHANTOM",
+        "episode": 1,
+        "season": 1
+    },
+    {
+        "time": "22/Feb/2023",
+        "anime": "VINLAND SAGA",
+        "episode": 7,
+        "season": 2
+    },
+    {
+        "time": "22/Feb/2023",
+        "anime": "DANNY PHANTOM",
+        "episode": 3,
+        "season": 1
     }
 ]

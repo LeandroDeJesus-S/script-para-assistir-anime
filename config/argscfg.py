@@ -54,13 +54,18 @@ class Arguments(Color):
             
         log.debug(f'NEW_watch_season_ep > anime : {anime} : season : {se} : ep : {ep}')
         anime = anime.upper()
-        anime_homelink = Animes.get_anime_home_link(anime)
-        log.debug(f'NEW_watch_season_ep > anime_homelink : {anime_homelink}')
-        link_to_redirect = SeasonEp(anime_homelink).link_to_season_ep(ep, se)
+        anime_home_link = Animes.get_anime_home_link(anime)
+        if not anime_home_link:
+            print(Color.red('Anime não encontrado...'))
+            return
+        
+        log.debug(f'NEW_watch_season_ep > anime_homelink : {anime_home_link}')
+        link_to_redirect = SeasonEp(anime_home_link).link_to_season_ep(ep, se)
         log.debug(f'NEW_watch_season_ep > link_to_redirect : {link_to_redirect}')
         if not is_accessible(link_to_redirect):
             print(Color.red('Não foi possivel acessar o link do anime...'))
             return
+        
         webbrowser_open(link_to_redirect)
         history.save_history(anime, ep, se)
 
