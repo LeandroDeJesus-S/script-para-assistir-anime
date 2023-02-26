@@ -67,7 +67,7 @@ class Arguments(Color):
             return
         
         webbrowser_open(link_to_redirect)
-        history.save_history(anime, ep, se)
+        history.History.save_history(anime, ep, se)
 
     @classmethod
     def add_anime(cls, anime_name: str, url: str) -> None:
@@ -120,7 +120,7 @@ class Arguments(Color):
         
         webbrowser_open(link_to_redirect)
         if not se_num: se_num = None
-        history.save_history(anime_name, ep_num, se_num)
+        history.History.save_history(anime_name, ep_num, se_num)
         log.info(f'new > redirecionado para : {link_to_redirect}')
         
     @classmethod

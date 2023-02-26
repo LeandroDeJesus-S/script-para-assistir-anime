@@ -44,4 +44,4 @@ elif FETCH:
     argscfg.Arguments.fetch_animes(FETCH)
 
 elif HISTORY:
-    history.show_history()
+    history.History.show_history()
