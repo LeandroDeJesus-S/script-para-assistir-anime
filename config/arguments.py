@@ -17,11 +17,14 @@ cli.add_argument('-e', nargs=1, type=int, metavar='[EP]', help=E_HELP)
 cli.add_argument('-add', nargs=2, type=str, metavar=('[ANM]', '[URL]'), help=ADD_HELP)
 cli.add_argument('-sh', action='store_true', help=SH_HELP)
 cli.add_argument('-le', action='store_true', help=LE_HELP)
+cli.add_argument('-l', nargs=1, type=int, metavar='[LIMIT]')
 cli.add_argument('-la', action='store_true', help=LA_HELP)
 cli.add_argument('-new', nargs=1, type=str, metavar='[ANM]', help=NEW_HELP)
+
 cli.add_argument('--update', action='store_true', help=UPDATE_HELP)
 cli.add_argument('--fetch', nargs=1, type=str, metavar='[ANM]', help=FETCH_HELP)
 cli.add_argument('--history', action='store_true', help=HISTORY_HELP)
+
 args = cli.parse_args()
 
 W = get_arg_or_empty_str(args.w)
@@ -32,6 +35,7 @@ ADD = {'anime': args.add[0], 'url': args.add[1]} if args.add else None
 SH = args.sh
 LA = args.la
 LE = args.le
+L = get_arg_or_none(args.l)
 UPDATE = args.update
 FETCH = get_arg_or_empty_str(args.fetch)
 HISTORY = args.history

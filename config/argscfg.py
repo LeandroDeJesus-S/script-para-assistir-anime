@@ -136,10 +136,10 @@ class Arguments(Color):
         animesonline.AnimesOnline.show_last_animes()
         
     @classmethod
-    def last_episodes(cls):
+    def last_episodes(cls, limit=None):
         """mostra os ultimos lançamentos de episodios
         """
-        animesonline.AnimesOnline.show_last_eps()
+        animesonline.AnimesOnline.show_last_eps(limit)
         
     @classmethod
     def fetch_animes(cls, fetch: str):

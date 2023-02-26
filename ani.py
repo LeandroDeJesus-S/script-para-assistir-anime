@@ -35,7 +35,9 @@ elif LA:
     argscfg.Arguments.last_animes()
     
 elif LE:
-    argscfg.Arguments.last_episodes()
+    limit = None if not L else L
+    argscfg.Arguments.last_episodes(limit)
+    
 
 elif UPDATE:
     up.Updater.make_manual_updates()

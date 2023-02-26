@@ -28,19 +28,23 @@ class EpsConfig:
             traduction, *name, ep = anime.split()
             name = ' '.join(name)
             EpsConfig.save_last_eps(traduction, name, int(ep))
-        log.info(f'sent_last_eps_to_database > releases : {len(releases)} eps enviados para base de dados')
+        log.info(
+            f'sent_last_eps_to_database > releases : {len(releases)} eps enviados para base de dados'
+        )
 
     @classmethod
-    def get_last_eps_in_database(cls) -> list[tuple[str, str, int]]:
+    def get_last_eps_in_database(cls, limit=None) -> list[tuple[str, str, int]]: #
+        if limit is not None:
+            limit = F'LIMIT {limit}'
         connection = sqlite3.connect(cls.database)
         cursor = connection.cursor()
-        cursor.execute('SELECT * FROM last_eps')
+        cursor.execute(f'SELECT * FROM last_eps {limit}')
 
         eps = cursor.fetchall()
 
         cursor.close()
         connection.close()
-        log.info(f'get_last_eps_in_database > eps : {len(eps)} episodios encontrados')
+        log.info(f'get_last_eps_in_database > eps : {len(eps)} episódios encontrados')
         return eps
 
     @classmethod
@@ -48,7 +52,7 @@ class EpsConfig:
         from animes_scrapping.animesonline import AnimesOnline
         from config.cor import Color
 
-        print(Color.yellow('Atualizando episodios da base de dados...'))
+        print(Color.yellow('Atualizando episódios da base de dados...'))
         new_episodes = AnimesOnline.get_last_eps()
         cls.sent_last_eps_to_database(new_episodes)
         print(Color.blue('Base de dados atualizada!\n'))

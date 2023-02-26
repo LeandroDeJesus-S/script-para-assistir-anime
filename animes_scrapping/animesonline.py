@@ -56,7 +56,7 @@ class AnimesOnline(Color):
         return releases
 
     @classmethod
-    def show_last_eps(cls) -> None:
+    def show_last_eps(cls, limit=None) -> None:
         """show formatted latest eps releases from animesonline"""
         from database.episodes_db import EpsConfig
 
@@ -64,9 +64,9 @@ class AnimesOnline(Color):
 
         animes_in_database = [f'{i[0]} {i[1]} {i[2]}' for i in animes]
         last_episodes_releases = [i.strip() for i in cls.get_last_eps()]
-
+        
         news = 0
-        for anime in last_episodes_releases:
+        for anime in last_episodes_releases[:limit]:
             log.debug(f'show_last_eps > {anime} in {animes_in_database}')
             if anime not in animes_in_database:
                 print(cls.green(anime))
@@ -78,7 +78,7 @@ class AnimesOnline(Color):
 
     @classmethod
     def get_last_animes(cls) -> list[list[str, str]]:
-        print('buscando por ultimos lançamentos de animes...')
+        print('buscando por últimos lançamentos de animes...')
         all_animes_releases = []
         for page in cls.last_animes:
             res = rq.get(page)
