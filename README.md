@@ -11,7 +11,7 @@
 </p>
 
 <h4 align="center"> 
-  🚀 Em construção...  🚧
+  🚫  No momento o site animeseonline está fora do ar...  🚧
 </h4>
 
 ### Features
