@@ -1,8 +1,9 @@
 logs.log
-animes_scrapping/__pycache__
-config/__pycache__
+animesbr/__pycache__
+conf/__pycache__
+options/__pycache__
 database/__pycache__
 dataupdate/__pycache__
-config/history.json
+conf/history.json
 .vscode
-tests.py
+test.py
